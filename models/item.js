@@ -10,6 +10,8 @@ const ItemSchema = new Schema({
   status: { type: String, required: true },
   stock_number: { type: Number, required: true },
   image: { type: String, required: true },
+  size: [{ type: String, required: true }],
+  color: { type: String, required: true },
 });
 
 ItemSchema.virtual("url").get(function () {
