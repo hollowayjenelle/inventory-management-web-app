@@ -1,14 +1,14 @@
 #! /usr/bin/env node
+const mongoose = require("mongoose");
 
 const userArgs = process.argv.slice(2);
 
-const Item = require("../models/item");
-const Category = require("../models/category");
+const Item = require("./models/item");
+const Category = require("./models/category");
 
 const items = [];
 const categories = [];
 
-const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 
 const mongoDB = userArgs[0];
@@ -19,8 +19,8 @@ async function main() {
   console.log("Debug: About to connect");
   await mongoose.connect(mongoDB);
   console.log("Debug: Should be connected");
-  await createItems();
   await createCategories();
+  await createItems();
   console.log("Debug: Closing mongoose");
   mongoose.connection.close();
 }
@@ -79,7 +79,7 @@ async function createItems() {
       20.0,
       "In Stock",
       12,
-      "../public/images/striped-shirt.jpg",
+      "./public/images/striped-shirt.jpg",
       ["S", "M", "L", "XL"],
       "Black and White"
     ),
@@ -90,7 +90,7 @@ async function createItems() {
       10.0,
       "In Stock",
       20,
-      "../public/images/black-tshirt.jpg",
+      "./public/images/black-tshirt.jpg",
       ["M", "L", "XL"],
       "Black"
     ),
@@ -101,7 +101,7 @@ async function createItems() {
       24.5,
       "Almost Out Of Stock",
       5,
-      "../public/images/ruffled-red-dress.jpg",
+      "./public/images/ruffled-red-dress.jpg",
       ["M"],
       "Red"
     ),
@@ -112,7 +112,7 @@ async function createItems() {
       35.5,
       "In Stock",
       10,
-      "../public/images/sequined-black-dress.jpg",
+      "./public/images/sequined-black-dress.jpg",
       ["M", "L", "XL", "XXL"],
       "Black"
     ),
