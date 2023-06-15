@@ -7,7 +7,12 @@ const ItemSchema = new Schema({
   description: { type: String, required: true },
   category: [{ type: Schema.Types.ObjectId, ref: "Category", required: true }],
   price: { type: Number, required: true },
-  status: { type: String, required: true },
+  status: {
+    type: String,
+    required: true,
+    enum: ["In Stock", "Out of Stock", "Almost Out Of Stock"],
+    default: "In Stock",
+  },
   stock_number: { type: Number, required: true },
   image: { type: String, required: true },
   size: [{ type: String, required: true }],

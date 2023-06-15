@@ -66,11 +66,55 @@ async function createCategories() {
     categoryCreate("Tops"),
     categoryCreate("Jeans"),
     categoryCreate("Dresses"),
-    categoryCreate("Skirts"),
   ]);
 }
 //finish this at home
 async function createItems() {
   console.log("Adding items");
-  await Promise.all([itemCreate("")]);
+  await Promise.all([
+    itemCreate(
+      "Striped Black and White T-Shirt",
+      "A black and white striped t-shirt with round neck",
+      categories[0],
+      20.0,
+      "In Stock",
+      12,
+      "../public/images/striped-shirt.jpg",
+      ["S", "M", "L", "XL"],
+      "Black and White"
+    ),
+    itemCreate(
+      "Black T-Shirt",
+      "A plain black t-shirt with round neck",
+      categories[0],
+      10.0,
+      "In Stock",
+      20,
+      "../public/images/black-tshirt.jpg",
+      ["M", "L", "XL"],
+      "Black"
+    ),
+    itemCreate(
+      "Ruffled Red Dress",
+      "A beautiful ruffled red dress",
+      categories[2],
+      24.5,
+      "Almost Out Of Stock",
+      5,
+      "../public/images/ruffled-red-dress.jpg",
+      ["M"],
+      "Red"
+    ),
+    itemCreate(
+      "Sequined Black Dress",
+      "A dazzling sequined black dress",
+      categories[2],
+      35.5,
+      "In Stock",
+      10,
+      "../public/images/sequined-black-dress.jpg",
+      ["M", "L", "XL", "XXL"],
+      "Black"
+    ),
+  ]);
 }
