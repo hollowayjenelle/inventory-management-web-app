@@ -3,6 +3,10 @@ const Category = require("./models/category");
 const asyncHandler = require("express-async-handler");
 const { body, validationResults } = require("express-validator");
 
+exports.index = asyncHandler(async (req, res, next) => {
+  res.send("I don't know what I'm going to place here");
+});
+
 //Gets all items - no matter the category
 exports.items_list = asyncHandler(async (req, res, next) => {
   const allItems = await Item.find()

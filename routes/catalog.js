@@ -3,9 +3,7 @@ const router = express.Router();
 
 const item_contoller = require("../controllers/itemController");
 
-router.get("/", (req, res, next) => {
-  res.redirect("catalog_home");
-});
+router.get("/", item_contoller.index);
 
 //ITEMS ROUTES //
 router.get("/items", item_controller.items_list);
