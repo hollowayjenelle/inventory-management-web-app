@@ -13,7 +13,6 @@ const ItemSchema = new Schema({
     enum: ["In Stock", "Out of Stock", "Almost Out Of Stock"],
     default: "In Stock",
   },
-  stock_number: { type: Number, required: true },
   image: { type: String, required: true },
   sizes: [
     {
@@ -26,6 +25,14 @@ const ItemSchema = new Schema({
 
 ItemSchema.virtual("url").get(function () {
   return `/catalog/item/${this._id}`;
+});
+
+ItemsSchema.virtual("total_stock_number").get(function () {
+  let total = 0;
+  for (size in this.sizes) {
+    total += size.quantity;
+  }
+  return total;
 });
 
 module.exports = mongoose.model("Item", ItemSchema);

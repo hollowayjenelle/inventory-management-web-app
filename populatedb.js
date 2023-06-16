@@ -5,9 +5,11 @@ const userArgs = process.argv.slice(2);
 
 const Item = require("./models/item");
 const Category = require("./models/category");
+const Size = required("./models/size");
 
 const items = [];
 const categories = [];
+const sizes = [];
 
 mongoose.set("strictQuery", false);
 
@@ -20,6 +22,7 @@ async function main() {
   await mongoose.connect(mongoDB);
   console.log("Debug: Should be connected");
   await createCategories();
+  await createSizes();
   await createItems();
   console.log("Debug: Closing mongoose");
   mongoose.connection.close();
@@ -60,6 +63,13 @@ async function categoryCreate(name) {
   console.log(`Added category: ${name}`);
 }
 
+async function sizeCreate(name) {
+  const size = new Size({ name: name });
+  await size.save();
+  sizes.push(size);
+  console.log(`Added size: ${name}`);
+}
+
 async function createCategories() {
   console.log("Adding categories");
   await Promise.all([
@@ -68,7 +78,18 @@ async function createCategories() {
     categoryCreate("Dresses"),
   ]);
 }
-//finish this at home
+
+async function createSizes() {
+  console.log("Adding sizes");
+  await Promise.all([
+    sizeCreate("XS"),
+    sizeCreate("S"),
+    sizeCreate("M"),
+    sizeCreate("L"),
+    sizeCreate("XL"),
+  ]);
+}
+
 async function createItems() {
   console.log("Adding items");
   await Promise.all([
@@ -78,9 +99,12 @@ async function createItems() {
       categories[0],
       20.0,
       "In Stock",
-      12,
       "./public/images/striped-shirt.jpg",
-      ["S", "M", "L", "XL"],
+      [
+        { size: sizes[1], quantity: 10 },
+        { size: sizes[2], quantity: 5 },
+        { size: sizes[3], quantity: 12 },
+      ],
       "Black and White"
     ),
     itemCreate(
@@ -89,9 +113,12 @@ async function createItems() {
       categories[0],
       10.0,
       "In Stock",
-      20,
       "./public/images/black-tshirt.jpg",
-      ["M", "L", "XL"],
+      [
+        { size: sizes[2], quantity: 12 },
+        { size: sizes[3], quantity: 10 },
+        { size: sizes[4], quantity: 10 },
+      ],
       "Black"
     ),
     itemCreate(
@@ -100,9 +127,8 @@ async function createItems() {
       categories[2],
       24.5,
       "Almost Out Of Stock",
-      5,
       "./public/images/ruffled-red-dress.jpg",
-      ["M"],
+      [{ size: sizes[2], quantity: 5 }],
       "Red"
     ),
     itemCreate(
@@ -111,9 +137,12 @@ async function createItems() {
       categories[2],
       35.5,
       "In Stock",
-      10,
       "./public/images/sequined-black-dress.jpg",
-      ["M", "L", "XL", "XXL"],
+      [
+        { size: sizes[1], quantity: 15 },
+        { size: sizes[2], quantity: 10 },
+        { size: sizes[3], quantity: 15 },
+      ],
       "Black"
     ),
   ]);
