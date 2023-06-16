@@ -8,13 +8,17 @@ exports.items_list = asyncHandler(async (req, res, next) => {
   const allItems = await Item.find()
     .sort({ name: 1 })
     .populate("category")
+    .populate("size")
     .exec();
   res.render("items_list", { title: "All Items", items: allItems });
 });
 
 //Get item details
 exports.items_details = asyncHandler(async (req, res, next) => {
-  const item = await Item.find(req.params.id).populate("category").exec();
+  const item = await Item.find(req.params.id)
+    .populate("category")
+    .populate("size")
+    .exec();
   if (item === null) {
     const err = new Error("Item not found");
     err.status = 404;
@@ -24,7 +28,7 @@ exports.items_details = asyncHandler(async (req, res, next) => {
   res.render("item_detail", { title: item.name, item: item });
 });
 
-//Create item form - get
+/*Create item form - get
 exports.items_create_get = asyncHandler(async (req, res, next) => {
   const allCategory = Category.find().sort({ name: 1 }).exec();
   res.render("item_form", { title: "Create Item", categories: allCategory });
@@ -40,4 +44,4 @@ exports.items_create_post = [
   body("price", "Price is required").trim().isNumeric().escape(),
   body("status").escape(),
   body("stock_number", "Stock number is required").trim().isNumeric().escape(),
-];
+];*/
