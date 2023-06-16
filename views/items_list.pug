@@ -1,0 +1,13 @@
+extend layout
+
+block content
+    each item in items
+        div(class="item-card")
+            h3(class="item-name") #{item.name}
+            p(class="item-description") #{item.description}
+            p(class="price-and-status") #{item.price} - #{item.status}
+            p #{item.color}
+            img(src=item.image)
+            p #{item.image}
+        hr
+        

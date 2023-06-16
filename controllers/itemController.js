@@ -1,10 +1,11 @@
-const Item = require("./models/item");
-const Category = require("./models/category");
+const Item = require("../models/item");
+const Category = require("../models/category");
+const Size = require("../models/size");
 const asyncHandler = require("express-async-handler");
 const { body, validationResults } = require("express-validator");
 
 exports.index = asyncHandler(async (req, res, next) => {
-  res.send("I don't know what I'm going to place here");
+  res.render("index", { title: "Jen's Jemme Inventory" });
 });
 
 //Gets all items - no matter the category
@@ -12,7 +13,6 @@ exports.items_list = asyncHandler(async (req, res, next) => {
   const allItems = await Item.find()
     .sort({ name: 1 })
     .populate("category")
-    .populate("size")
     .exec();
   res.render("items_list", { title: "All Items", items: allItems });
 });
