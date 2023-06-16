@@ -5,7 +5,7 @@ const userArgs = process.argv.slice(2);
 
 const Item = require("./models/item");
 const Category = require("./models/category");
-const Size = required("./models/size");
+const Size = require("./models/size");
 
 const items = [];
 const categories = [];
@@ -34,9 +34,8 @@ async function itemCreate(
   category,
   price,
   status,
-  stock_number,
   image,
-  size,
+  sizes,
   color
 ) {
   const itemDetails = {
@@ -45,9 +44,8 @@ async function itemCreate(
     category: category,
     price: price,
     status: status,
-    stock_number: stock_number,
     image: image,
-    size: size,
+    sizes: sizes,
     color: color,
   };
   const item = new Item(itemDetails);
