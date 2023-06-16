@@ -15,7 +15,7 @@ const ItemSchema = new Schema({
   },
   stock_number: { type: Number, required: true },
   image: { type: String, required: true },
-  size: [{ type: String, required: true }],
+  size: [{ type: Schema.Types.ObjectId, ref: "Size", required: true }],
   color: { type: String, required: true },
 });
 
