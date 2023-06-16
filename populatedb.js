@@ -44,10 +44,12 @@ async function itemCreate(
     category: category,
     price: price,
     status: status,
-    image: image,
     sizes: sizes,
     color: color,
   };
+  if (image != false) {
+    itemDetails.image = image;
+  }
   const item = new Item(itemDetails);
   await item.save();
   items.push(item);
@@ -97,7 +99,7 @@ async function createItems() {
       categories[0],
       20.0,
       "In Stock",
-      "../public/images/striped-shirt.jpg",
+      false,
       [
         { size: sizes[1], quantity: 10 },
         { size: sizes[2], quantity: 5 },
@@ -111,7 +113,7 @@ async function createItems() {
       categories[0],
       10.0,
       "In Stock",
-      "../public/images/black-tshirt.jpg",
+      false,
       [
         { size: sizes[2], quantity: 12 },
         { size: sizes[3], quantity: 10 },
@@ -125,7 +127,7 @@ async function createItems() {
       categories[2],
       24.5,
       "Almost Out Of Stock",
-      "../public/images/ruffled-red-dress.jpg",
+      false,
       [{ size: sizes[2], quantity: 5 }],
       "Red"
     ),
@@ -135,7 +137,7 @@ async function createItems() {
       categories[2],
       35.5,
       "In Stock",
-      "../public/images/sequined-black-dress.jpg",
+      false,
       [
         { size: sizes[1], quantity: 15 },
         { size: sizes[2], quantity: 10 },

@@ -13,7 +13,7 @@ const ItemSchema = new Schema({
     enum: ["In Stock", "Out of Stock", "Almost Out Of Stock"],
     default: "In Stock",
   },
-  image: { type: String, required: true },
+  image: { type: String },
   sizes: [
     {
       size: { type: Schema.Types.ObjectId, ref: "Size", required: true },
