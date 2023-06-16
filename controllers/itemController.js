@@ -10,15 +10,15 @@ exports.index = asyncHandler(async (req, res, next) => {
 
 //Gets all items - no matter the category
 exports.items_list = asyncHandler(async (req, res, next) => {
-  const allItems = await Item.find().sort({ name: 1 }).populate("sizes").exec();
+  const allItems = await Item.find().sort({ name: 1 }).exec();
   res.render("items_list", { title: "All Items", items: allItems });
 });
 
 //Get item details
 exports.items_details = asyncHandler(async (req, res, next) => {
-  const item = await Item.find(req.params.id)
+  const item = await Item.findById(req.params.id)
     .populate("category")
-    .populate("size")
+    .populate("sizes.size")
     .exec();
   if (item === null) {
     const err = new Error("Item not found");
