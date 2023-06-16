@@ -9,3 +9,5 @@ const SizeSchema = new Schema({
 SizeSchema.virtual("url").get(function () {
   return `catalog/size/${this._id}`;
 });
+
+module.exports = mongoose.model("Size", SizeSchema);
