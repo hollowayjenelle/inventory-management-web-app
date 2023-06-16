@@ -29,8 +29,10 @@ ItemSchema.virtual("url").get(function () {
 
 ItemSchema.virtual("total_stock_number").get(function () {
   let total = 0;
-  for (size in this.sizes) {
-    total += size.quantity;
+  for (const size of this.sizes) {
+    if (size.quantity && typeof size.quantity === "number") {
+      total += size.quantity;
+    }
   }
   return total;
 });
