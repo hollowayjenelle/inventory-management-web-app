@@ -2,7 +2,7 @@ const Item = require("../models/item");
 const Category = require("../models/category");
 const Size = require("../models/size");
 const asyncHandler = require("express-async-handler");
-const { body, validationResults } = require("express-validator");
+const { body, validationResult } = require("express-validator");
 
 exports.index = asyncHandler(async (req, res, next) => {
   res.render("index", { title: "Jen's Jemme Inventory" });
@@ -45,14 +45,62 @@ exports.items_create_get = asyncHandler(async (req, res, next) => {
   });
 });
 
-/*exports.items_create_post = [
+exports.items_create_post = [
+  (req, res, next) => {
+    const sizes = [];
+    for (const size of req.body.size) {
+      const quantity = req.body[size.name];
+      if (quantity != "") {
+        const sizeObj = { size: size.name, quantity: parseInt(quantity) };
+        sizes.push(sizeObj);
+      }
+    }
+    req.body.size = sizes;
+    next();
+  },
+
+  //Validate and santitize data
   body("name", "Item name is required").trim().isLength({ min: 3 }).escape(),
   body("description", "Item description is required")
     .trim()
     .isLength({ min: 3 })
     .escape(),
-  body("category.*").escape(),
-  body("price", "Price is required").trim().isNumeric().escape(),
-  body("status").escape(),
-  body("stock_number", "Stock number is required").trim().isNumeric().escape(),
-];*/
+  body("category", "Category is required").trim().escape(),
+  body("price", "Price is required").trim().isFloat().escape(),
+  body("size.*").escape(),
+  body("color", "Item color is required").trim().isLength({ min: 3 }).escape(),
+
+  //Process request
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+
+    const item = new Item({
+      name: req.body.name,
+      description: req.body.description,
+      category: req.body.category,
+      price: req.body.price,
+      image: req.file.path,
+      sizes: req.body.size,
+      color: req.body.color,
+    });
+
+    if (!errors.isEmpty()) {
+      //If there are errors, the form will render again with the errors
+      const [allCategories, allSizes] = await Promise.all([
+        Category.find().exec(),
+        Size.find().exec(),
+      ]);
+
+      res.render("item_form", {
+        title: "Create Item",
+        categories: allCategories,
+        sizes: allSizes,
+        item: item,
+        errors: errors.array(),
+      });
+    } else {
+      await item.save();
+      res.redirect(item.url);
+    }
+  }),
+];

@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
+const upload = multer({ dest: "../uploads/" });
 
 const item_controller = require("../controllers/itemController");
 const category_controller = require("../controllers/categoryController");
@@ -14,7 +16,7 @@ router.get("/item/:id", item_controller.items_details);
 
 router.get("/items", item_controller.items_list);
 
-//router.post("/item/create", item_controller.items_create_post);
+router.post("/item/create", upload.single('image'), item_controller.items_create_post);
 
 //CATEGORY ROUTES //
 router.get("/categories", category_controller.category_list);
