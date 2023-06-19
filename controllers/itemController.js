@@ -34,6 +34,10 @@ exports.items_create_get = asyncHandler(async (req, res, next) => {
     Category.find().exec(),
     Size.find().exec(),
   ]);
+  const customOrder = ["XS", "S", "M", "L", "XL"];
+  allSizes.sort(function (a, b) {
+    return customOrder.indexOf(a.name) - customOrder.indexOf(b.name);
+  });
   res.render("item_form", {
     title: "Create Item",
     categories: allCategory,

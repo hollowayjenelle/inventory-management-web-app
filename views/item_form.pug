@@ -25,4 +25,11 @@ block content
                     div(style='display: inline; padding-right: 10px;')
                         input.checkbox-input(type='checkbox', name='category', id=size._id, value=size.name checked=size.checked)
                         label.pe-1(for=size._id) #{size.name}
-                        input(type='number' id=`quantity-${size.name}` value=size.quantity)
+                        input(type='number' id=`quantity-${size.name}` value=size.quantity min='0')
+
+        button.btn.btn-primary(type='submit') Submit
+
+    if errors
+        ul
+        for error in errors
+            li!= error.msg
