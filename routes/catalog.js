@@ -3,6 +3,7 @@ const router = express.Router();
 
 const item_controller = require("../controllers/itemController");
 const category_controller = require("../controllers/categoryController");
+const size_controller = require("../controllers/sizeController");
 
 router.get("/", item_controller.index);
 
@@ -15,5 +16,8 @@ router.get("/item/:id", item_controller.items_details);
 router.get("/categories", category_controller.category_list);
 
 router.get("/category/:id", category_controller.category_details);
+
+//SIZE ROUTES//
+router.get("/sizes", size_controller.size_list);
 
 module.exports = router;
