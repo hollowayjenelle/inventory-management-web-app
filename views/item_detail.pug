@@ -4,9 +4,8 @@ block content
     h1 #{title}
 
     p #[strong Status:] #{item.status}
-    p #[strong Category: ]
-        each val in item.category 
-            a(href=val.url) #{val.name}
+    p #[strong Category: ] 
+        a(href=item.category.url) #{item.category.name}       
     p #[strong Price:] $#{item.price}
     p #[strong Total Number of Stock:] #{item.total_stock_number}
     p #[strong Sizes and their Quantity]:
