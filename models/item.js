@@ -7,12 +7,6 @@ const ItemSchema = new Schema({
   description: { type: String, required: true },
   category: [{ type: Schema.Types.ObjectId, ref: "Category", required: true }],
   price: { type: Number, required: true },
-  status: {
-    type: String,
-    required: true,
-    enum: ["In Stock", "Out of Stock", "Almost Out Of Stock"],
-    default: "In Stock",
-  },
   image: { type: String },
   sizes: [
     {
@@ -35,6 +29,18 @@ ItemSchema.virtual("total_stock_number").get(function () {
     }
   }
   return total;
+});
+
+ItemSchema.virtual("status").get(function () {
+  let status = "";
+  if (this.total_stock_number > 10) {
+    status = "In Stock";
+  } else if (this.total_stock_number <= 10) {
+    status = "Almost Out of Stock";
+  } else {
+    status = "Out of Stock";
+  }
+  return status;
 });
 
 module.exports = mongoose.model("Item", ItemSchema);

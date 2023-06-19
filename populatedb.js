@@ -33,7 +33,6 @@ async function itemCreate(
   description,
   category,
   price,
-  status,
   image,
   sizes,
   color
@@ -43,7 +42,6 @@ async function itemCreate(
     description: description,
     category: category,
     price: price,
-    status: status,
     sizes: sizes,
     color: color,
   };
@@ -98,7 +96,6 @@ async function createItems() {
       "A black and white striped t-shirt with round neck",
       categories[0],
       20.0,
-      "In Stock",
       false,
       [
         { size: sizes[1], quantity: 10 },
@@ -112,7 +109,6 @@ async function createItems() {
       "A plain black t-shirt with round neck",
       categories[0],
       10.0,
-      "In Stock",
       false,
       [
         { size: sizes[2], quantity: 12 },
@@ -126,7 +122,6 @@ async function createItems() {
       "A beautiful ruffled red dress",
       categories[2],
       24.5,
-      "Almost Out Of Stock",
       false,
       [{ size: sizes[2], quantity: 5 }],
       "Red"
@@ -136,7 +131,6 @@ async function createItems() {
       "A dazzling sequined black dress",
       categories[2],
       35.5,
-      "In Stock",
       false,
       [
         { size: sizes[1], quantity: 15 },
