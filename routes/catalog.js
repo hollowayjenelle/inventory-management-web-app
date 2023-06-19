@@ -20,4 +20,6 @@ router.get("/category/:id", category_controller.category_details);
 //SIZE ROUTES//
 router.get("/sizes", size_controller.size_list);
 
+router.get("/size/:id", size_controller.size_details);
+
 module.exports = router;
