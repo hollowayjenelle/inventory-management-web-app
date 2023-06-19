@@ -8,9 +8,13 @@ const size_controller = require("../controllers/sizeController");
 router.get("/", item_controller.index);
 
 //ITEMS ROUTES //
-router.get("/items", item_controller.items_list);
+router.get("/item/create", item_controller.items_create_get);
 
 router.get("/item/:id", item_controller.items_details);
+
+router.get("/items", item_controller.items_list);
+
+//router.post("/item/create", item_controller.items_create_post);
 
 //CATEGORY ROUTES //
 router.get("/categories", category_controller.category_list);

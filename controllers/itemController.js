@@ -29,13 +29,19 @@ exports.items_details = asyncHandler(async (req, res, next) => {
   res.render("item_detail", { title: item.name, item: item });
 });
 
-/*Create item form - get
 exports.items_create_get = asyncHandler(async (req, res, next) => {
-  const allCategory = Category.find().sort({ name: 1 }).exec();
-  res.render("item_form", { title: "Create Item", categories: allCategory });
+  const [allCategory, allSizes] = await Promise.all([
+    Category.find().exec(),
+    Size.find().exec(),
+  ]);
+  res.render("item_form", {
+    title: "Create Item",
+    categories: allCategory,
+    sizes: allSizes,
+  });
 });
 
-exports.items_create_post = [
+/*exports.items_create_post = [
   body("name", "Item name is required").trim().isLength({ min: 3 }).escape(),
   body("description", "Item description is required")
     .trim()
