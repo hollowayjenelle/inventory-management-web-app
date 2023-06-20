@@ -6,17 +6,17 @@ const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "uploads/");
   },
-  filename: function(req, file, cb){
+  filename: function (req, file, cb) {
     var filename = Date.now();
     switch (file.mimetype) {
-      case 'image/png':
-      filename = filename + ".png";
-      break;
-      case 'image/jpeg':
-      filename = filename + ".jpeg";
-      break;
+      case "image/png":
+        filename = filename + ".png";
+        break;
+      case "image/jpeg":
+        filename = filename + ".jpeg";
+        break;
       default:
-      break;
+        break;
     }
     cb(null, filename);
   },
@@ -32,15 +32,19 @@ router.get("/", item_controller.index);
 //ITEMS ROUTES //
 router.get("/item/create", item_controller.items_create_get);
 
-router.get("/item/:id", item_controller.items_details);
-
-router.get("/items", item_controller.items_list);
-
 router.post(
   "/item/create",
   upload.single("image"),
   item_controller.items_create_post
 );
+
+router.get("/item/:id/delete", item_controller.items_delete_get);
+
+router.post("/item/:id/delete", item_controller.items_delete_post);
+
+router.get("/item/:id", item_controller.items_details);
+
+router.get("/items", item_controller.items_list);
 
 //CATEGORY ROUTES //
 router.get("/categories", category_controller.category_list);

@@ -104,3 +104,21 @@ exports.items_create_post = [
     }
   }),
 ];
+
+exports.items_delete_get = asyncHandler(async (req, res, next) => {
+  const item = await Item.findById(req.params.id)
+    .populate("category")
+    .populate("sizes.size")
+    .exec();
+  res.render("delete_item", { title: `Delete ${item.name}`, item: item });
+});
+
+exports.items_delete_post = asyncHandler(async (req, res, next) => {
+  const item = await Item.findById(req.params.id);
+  if (item === null) {
+    res.redirect("/catalog/items");
+  } else {
+    await Item.findByIdAndRemove(req.params.id);
+    res.redirect("/catalog/items");
+  }
+});

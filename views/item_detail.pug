@@ -11,6 +11,7 @@ block content
     p #[strong Sizes and their Quantity]:
         each size in item.sizes 
             li #{size.size.name} - #{size.quantity}
+    a(href=item.url+"/delete") Delete item
     if item.image
         img(src="/"+item.image)
     else
