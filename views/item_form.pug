@@ -41,8 +41,7 @@ block content
                     div(style='display: inline; padding-right: 10px;')
                         input.checkbox-input(type='checkbox', name='size', id=size._id, value=size._id checked=size.checked class="allCheckBox")
                         label.pe-1(for=size._id) #{size.name}
-                        //Fix how to display the exisiting quantity of the item 
-                        input(type='number' name='size-quantity' placeholder='Enter the quantity of this size' id=size.name min='0' value=(item===undefined ? '' : item.sizes[index]) class="allQuantityField")
+                        input(type='number' name='size-quantity' placeholder='Enter the quantity of this size' id=size.name min='0' value=(item === undefined || item.sizes === undefined || item.sizes[index] === undefined || item.sizes[index].size._id === size._id? '' : item.sizes[index].quantity) class="allQuantityField")
 
         div.form-group
             label(for='color') Color:
