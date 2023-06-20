@@ -4,15 +4,10 @@ block content
     h1=title
     hr
     each item in items
-        div(class="item-card")
-            if item.image
-                img(src=item.image)
-            else
-                p There is no image to be displayed for this item
-            a(href=item.url)
-                h3(class="item-name") #{item.name}
-            p(class="item-description") #{item.description}
-            p(class="price-and-status") $#{item.price} - #{item.status}
+        a(href=item.url)
+            h3(class="item-name") #{item.name}
+        p(class="item-description") #{item.description}
+        p(class="price-and-status") $#{item.price} - #{item.status}
         hr
     else
         p There are no items

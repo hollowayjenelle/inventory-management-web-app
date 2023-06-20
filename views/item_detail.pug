@@ -11,3 +11,7 @@ block content
     p #[strong Sizes and their Quantity]:
         each size in item.sizes 
             li #{size.size.name} - #{size.quantity}
+    if item.image
+        img(src="/"+item.image)
+    else
+        p There are no pictures attached

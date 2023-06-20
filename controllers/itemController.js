@@ -3,6 +3,7 @@ const Category = require("../models/category");
 const Size = require("../models/size");
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
+const fs = require("file-system");
 
 exports.index = asyncHandler(async (req, res, next) => {
   res.render("index", { title: "Jen's Jemme Inventory" });
@@ -25,7 +26,6 @@ exports.items_details = asyncHandler(async (req, res, next) => {
     err.status = 404;
     next(err);
   }
-
   res.render("item_detail", { title: item.name, item: item });
 });
 
