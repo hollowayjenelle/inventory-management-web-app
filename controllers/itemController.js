@@ -153,7 +153,7 @@ exports.items_update_get = asyncHandler(async (req, res, next) => {
     }
   }
 
-  console.log(item.sizes);
+  console.log(item.sizes[0].quantity);
   res.render("item_form", {
     title: "Update Item",
     item: item,
