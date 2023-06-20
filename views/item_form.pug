@@ -1,7 +1,20 @@
 extend layout 
 
 block content 
+    script.
+      document.addEventListener('DOMContentLoaded', function() {
+        var checkboxes = document.querySelectorAll('.allCheckBox');
+        var inputFields = document.querySelectorAll('.allQuantityField');
 
+        checkboxes.forEach(function(checkbox, index) {
+          checkbox.addEventListener('click', function() {
+            inputFields[index].disabled = !checkbox.checked;
+          });
+
+          // Set initial state
+          inputFields[index].disabled = !checkbox.checked;
+        });
+      });
     h1= title 
 
     form(method='POST', action='' enctype="multipart/form-data")
@@ -26,9 +39,9 @@ block content
             div.d-flex.flex-column
                 for size in sizes 
                     div(style='display: inline; padding-right: 10px;')
-                        input.checkbox-input(type='checkbox', name='size', id=size._id, value=size._id checked=size.checked onclick='toggleQuantity("'+size.name+'")')
+                        input.checkbox-input(type='checkbox', name='size', id=size._id, value=size._id checked=size.checked class="allCheckBox")
                         label.pe-1(for=size._id) #{size.name}
-                        input(type='number' name='size-quantity' placeholder='Enter the quantity of this size' id=size.name value=size.quantity min='0' style='display: none;')
+                        input(type='number' name='size-quantity' placeholder='Enter the quantity of this size' id=size.name min='0' class="allQuantityField")
 
         div.form-group
             label(for='color') Color:
@@ -42,9 +55,3 @@ block content
         ul
         for error in errors
             li!= error.msg
-    script.        
-        function toggleQuantity(quantityId){
-            const quantityInput = document.getElementById(quantityId);
-            quantityInput.style.display = event.target.checked ? 'inline-block' : 'none';
-        }    
-    

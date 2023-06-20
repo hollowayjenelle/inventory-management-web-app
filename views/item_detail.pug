@@ -12,6 +12,7 @@ block content
         each size in item.sizes 
             li #{size.size.name} - #{size.quantity}
     a(href=item.url+"/delete") Delete item
+    a(href=item.url+"/update") Update item
     if item.image
         img(src="/"+item.image)
     else

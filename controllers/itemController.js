@@ -124,7 +124,42 @@ exports.items_delete_post = asyncHandler(async (req, res, next) => {
 });
 
 exports.items_update_get = asyncHandler(async (req, res, next) => {
-  res.send("update form link work");
+  const [item, allCategories, allSizes] = await Promise.all([
+    Item.findById(req.params.id)
+      .populate("category")
+      .populate("sizes.size")
+      .exec(),
+    Category.find().exec(),
+    Size.find().exec(),
+  ]);
+
+  if (item === null) {
+    const err = new Error("Item not found");
+    err.status = 404;
+    return next(err);
+  }
+
+  for (const category of allCategories) {
+    if (category._id.toString() === item.category._id.toString()) {
+      category.checked = "true";
+    }
+  }
+
+  for (const size of allSizes) {
+    for (const item_size of item.sizes) {
+      if (size._id.toString() === item_size.size._id.toString()) {
+        size.checked = "true";
+      }
+    }
+  }
+
+  console.log(item.sizes);
+  res.render("item_form", {
+    title: "Update Item",
+    item: item,
+    categories: allCategories,
+    sizes: allSizes,
+  });
 });
 
 exports.items_update_post = [];
