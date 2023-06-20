@@ -49,9 +49,10 @@ exports.items_create_post = [
   (req, res, next) => {
     const sizes = [];
     for (const size of req.body.size) {
-      const quantity = req.body[size.name];
+      const index = req.body.size.indexOf(size);
+      const quantity = req.body["size-quantity"][index];
       if (quantity != "") {
-        const sizeObj = { size: size.name, quantity: parseInt(quantity) };
+        const sizeObj = { size: size, quantity: parseInt(quantity) };
         sizes.push(sizeObj);
       }
     }
@@ -65,9 +66,8 @@ exports.items_create_post = [
     .trim()
     .isLength({ min: 3 })
     .escape(),
-  body("category", "Category is required").trim().escape(),
+  body("category", "Category is required").escape(),
   body("price", "Price is required").trim().isFloat().escape(),
-  body("size.*").escape(),
   body("color", "Item color is required").trim().isLength({ min: 3 }).escape(),
 
   //Process request
