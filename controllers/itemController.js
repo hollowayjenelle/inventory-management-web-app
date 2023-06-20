@@ -110,7 +110,7 @@ exports.items_delete_get = asyncHandler(async (req, res, next) => {
     .populate("category")
     .populate("sizes.size")
     .exec();
-  res.render("delete_item", { title: `Delete ${item.name}`, item: item });
+  res.render("item_delete", { title: `Delete ${item.name}`, item: item });
 });
 
 exports.items_delete_post = asyncHandler(async (req, res, next) => {
