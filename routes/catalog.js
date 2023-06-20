@@ -42,6 +42,10 @@ router.get("/item/:id/delete", item_controller.items_delete_get);
 
 router.post("/item/:id/delete", item_controller.items_delete_post);
 
+router.get("/item/:id/update", item_controller.items_update_get);
+
+router.post("/item/:id/update", item_controller.items_update_post);
+
 router.get("/item/:id", item_controller.items_details);
 
 router.get("/items", item_controller.items_list);

@@ -122,3 +122,9 @@ exports.items_delete_post = asyncHandler(async (req, res, next) => {
     res.redirect("/catalog/items");
   }
 });
+
+exports.items_update_get = asyncHandler(async (req, res, next) => {
+  res.send("update form link work");
+});
+
+exports.items_update_post = [];
