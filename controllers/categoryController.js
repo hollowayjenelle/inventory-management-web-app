@@ -71,3 +71,15 @@ exports.category_delete_get = asyncHandler(async (req, res, next) => {
     items: allItemsUnderCat,
   });
 });
+
+exports.category_delete_post = asyncHandler(async (req, res, next) => {
+  const category = await Category.findById(req.params.id).exec();
+  if (category === null) {
+    const error = new Error("Category doesn't exist");
+    error.status = 404;
+    next(error);
+  } else {
+    await Category.findByIdAndRemove(req.params.id);
+    res.redirect("/catalog/categories");
+  }
+});
