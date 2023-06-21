@@ -58,3 +58,15 @@ exports.size_delete_get = asyncHandler(async (req, res, next) => {
     items: allItems,
   });
 });
+
+exports.size_delete_post = asyncHandler(async (req, res, next) => {
+  const size = await Size.findById(req.params.id);
+  if (size === null) {
+    const error = new Error("Size does not exist");
+    error.status = 404;
+    next(error);
+  } else {
+    await Size.findByIdAndRemove(req.params.id);
+    res.redirect("/catalog/sizes");
+  }
+});

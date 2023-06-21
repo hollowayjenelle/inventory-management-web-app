@@ -78,6 +78,8 @@ router.post("/size/create", size_controller.size_create_post);
 
 router.get("/size/:id/delete", size_controller.size_delete_get);
 
+router.post("/size/:id/delete", size_controller.size_delete_post);
+
 router.get("/sizes", size_controller.size_list);
 
 router.get("/size/:id", size_controller.size_details);
