@@ -58,3 +58,16 @@ exports.category_create_post = [
     }
   }),
 ];
+
+exports.category_delete_get = asyncHandler(async (req, res, next) => {
+  const [category, allItemsUnderCat] = await Promise.all([
+    Category.findById(req.params.id).exec(),
+    Item.find({ category: req.params.id }).exec(),
+  ]);
+
+  res.render("category_delete", {
+    title: `Delete ${category.name}`,
+    category: category,
+    items: allItemsUnderCat,
+  });
+});

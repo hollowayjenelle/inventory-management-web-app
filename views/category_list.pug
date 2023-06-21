@@ -3,5 +3,7 @@ extend layout
 block content 
     h1= title 
     each category in categories
-        li 
-            a(href=category.url) #{category.name}
+        div.category-card
+            li
+                a(href=category.url) #{category.name}
+            a(href=category.url+'/delete') Delete #{category.name}
