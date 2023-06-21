@@ -34,6 +34,8 @@ app.use("/uploads", express.static("uploads"));
 app.use("/", indexRouter);
 app.use("/catalog", catalogRouter);
 
+app.locals.customSizeOrder = ["XS", "S", "M", "L", "XL"];
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

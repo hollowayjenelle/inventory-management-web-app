@@ -37,7 +37,6 @@ block content
         div.form-group
             label Size:
             div.d-flex.flex-column
-                -sizes.sort(function(a,b){ const customOrder = ["XS", "S", "M", "L", "XL"]; return customOrder.indexOf(a.name) - customOrder.indexOf(b.name);})
                 each size, index in sizes 
                     div(style='display: inline; padding-right: 10px;')
                         input.checkbox-input(type='checkbox', name='size', id=size._id, value=size._id checked=size.checked class="allCheckBox")
