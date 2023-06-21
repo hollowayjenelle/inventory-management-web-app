@@ -74,6 +74,8 @@ router.get("/category/:id", category_controller.category_details);
 //SIZE ROUTES//
 router.get("/size/create", size_controller.size_create_get);
 
+router.post("/size/create", size_controller.size_create_post);
+
 router.get("/sizes", size_controller.size_list);
 
 router.get("/size/:id", size_controller.size_details);

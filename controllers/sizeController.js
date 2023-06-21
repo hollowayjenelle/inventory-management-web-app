@@ -1,6 +1,7 @@
 const Size = require("../models/size");
 const Item = require("../models/item");
 const asyncHandler = require("express-async-handler");
+const { body, validationResult } = require("express-validator");
 
 exports.size_list = asyncHandler(async (req, res, next) => {
   const allSizes = await Size.find().exec();
@@ -23,5 +24,28 @@ exports.size_details = asyncHandler(async (req, res, next) => {
 });
 
 exports.size_create_get = asyncHandler(async (req, res, next) => {
-  res.render("size_form", {title: "Create a new size"})
-})
+  res.render("size_form", { title: "Create a new size" });
+});
+
+exports.size_create_post = [
+  body("size", "Size is required").trim().isLength({ min: 1 }).escape(),
+
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+
+    const size = new Size({
+      name: req.body.size,
+    });
+
+    if (!errors.isEmpty()) {
+      res.render("size_form", {
+        title: "Create a new size",
+        size: size,
+        errors: errors.array(),
+      });
+    } else {
+      await size.save();
+      res.redirect(size.url);
+    }
+  }),
+];
