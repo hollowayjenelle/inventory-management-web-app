@@ -83,3 +83,14 @@ exports.category_delete_post = asyncHandler(async (req, res, next) => {
     res.redirect("/catalog/categories");
   }
 });
+
+exports.category_update_get = asyncHandler(async (req, res, next) => {
+  const category = await Category.findById(req.params.id).exec();
+  if (category === null) {
+    const error = new Error("Category doesn't exist");
+    error.status = 404;
+    next(error);
+  }
+
+  res.render("category_form", { title: "Update Category", category: category });
+});
