@@ -57,6 +57,8 @@ router.get("/items", item_controller.items_list);
 //CATEGORY ROUTES //
 router.get("/category/create", category_controller.category_create_get);
 
+router.post("/category/create", category_controller.category_create_post);
+
 router.get("/categories", category_controller.category_list);
 
 router.get("/category/:id", category_controller.category_details);

@@ -3,10 +3,11 @@ extend layout
 block content 
     h1=title 
 
-    form(method="POST")
-        label(for="category")
-        input#category.form-control(type="text" name="category" placeholder="Tops, jeans etc" required value=(category===undefined ? '' : category.name))
-        btn.btn.btn-primary(type="submit") Submit
+    form(method="POST" action='')
+        div.form-group
+            label(for="category")
+            input#category.form-control(type="text" name="category" placeholder="Tops, jeans etc" required value=(category===undefined ? '' : category.name))
+        button.btn.btn-primary(type="submit") Submit
 
     if errors
         ul 
