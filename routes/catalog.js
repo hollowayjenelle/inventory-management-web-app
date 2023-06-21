@@ -44,13 +44,19 @@ router.post("/item/:id/delete", item_controller.items_delete_post);
 
 router.get("/item/:id/update", item_controller.items_update_get);
 
-router.post("/item/:id/update", upload.single("image"), item_controller.items_update_post);
+router.post(
+  "/item/:id/update",
+  upload.single("image"),
+  item_controller.items_update_post
+);
 
 router.get("/item/:id", item_controller.items_details);
 
 router.get("/items", item_controller.items_list);
 
 //CATEGORY ROUTES //
+router.get("/category/create", category_controller.category_create_get);
+
 router.get("/categories", category_controller.category_list);
 
 router.get("/category/:id", category_controller.category_details);

@@ -25,3 +25,7 @@ exports.category_details = asyncHandler(async (req, res, next) => {
     items: allItems,
   });
 });
+
+exports.category_create_get = asyncHandler(async (req, res, next) => {
+  res.render("category_form", { title: "Create a Category" });
+});
