@@ -21,3 +21,7 @@ exports.size_details = asyncHandler(async (req, res, next) => {
     items: clothesInCurrentSize,
   });
 });
+
+exports.size_create_get = asyncHandler(async (req, res, next) => {
+  res.render("size_form", {title: "Create a new size"})
+})

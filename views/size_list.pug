@@ -4,5 +4,8 @@ block content
 
     h1= title 
     each size in sizes
-        li
-            a(href=size.url) #{size.name}
+        div.size-card
+            li
+                a(href=size.url) #{size.name}
+            a(href=size.url+'/delete') Delete #{size.name}
+            a(href=size.url+'/update') Update #{size.name}
