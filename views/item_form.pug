@@ -37,11 +37,12 @@ block content
         div.form-group
             label Size:
             div.d-flex.flex-column
+                -sizes.sort(function(a,b){ const customOrder = ["XS", "S", "M", "L", "XL"]; return customOrder.indexOf(a.name) - customOrder.indexOf(b.name);})
                 each size, index in sizes 
                     div(style='display: inline; padding-right: 10px;')
                         input.checkbox-input(type='checkbox', name='size', id=size._id, value=size._id checked=size.checked class="allCheckBox")
                         label.pe-1(for=size._id) #{size.name}
-                        input(type='number' name='size-quantity' placeholder='Enter the quantity of this size' id=size.name min='0' value=(item === undefined || item.sizes === undefined || item.sizes[index] === undefined || item.sizes[index].size._id === size._id? '' : item.sizes[index].quantity) class="allQuantityField")
+                        input(type='number' name='size-quantity' placeholder='Enter the quantity of this size' id=size.name min='0' value=size.quantity class="allQuantityField")
 
         div.form-group
             label(for='color') Color:

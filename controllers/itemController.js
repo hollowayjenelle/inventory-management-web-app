@@ -34,10 +34,6 @@ exports.items_create_get = asyncHandler(async (req, res, next) => {
     Category.find().exec(),
     Size.find().exec(),
   ]);
-  const customOrder = ["XS", "S", "M", "L", "XL"];
-  allSizes.sort(function (a, b) {
-    return customOrder.indexOf(a.name) - customOrder.indexOf(b.name);
-  });
   res.render("item_form", {
     title: "Create Item",
     categories: allCategory,
@@ -132,6 +128,7 @@ exports.items_update_get = asyncHandler(async (req, res, next) => {
     Category.find().exec(),
     Size.find().exec(),
   ]);
+  const sizes = [];
 
   if (item === null) {
     const err = new Error("Item not found");
@@ -148,17 +145,28 @@ exports.items_update_get = asyncHandler(async (req, res, next) => {
   for (const size of allSizes) {
     for (const item_size of item.sizes) {
       if (size._id.toString() === item_size.size._id.toString()) {
-        size.checked = "true";
+        size.checked = true
+        const sizeObj = {
+          size: size._id,
+          name: size.name,
+          quantity: item_size.quantity,
+          checked: size.checked
+        };
+        sizes.push(sizeObj);
+        console.log(sizes);
       }
+    }
+    if (!size.checked) {
+      const sizeObj = { size: size._id, name: size.name, quantity: 0 };
+      sizes.push(sizeObj);
     }
   }
 
-  console.log(item.sizes[0].quantity);
   res.render("item_form", {
     title: "Update Item",
     item: item,
     categories: allCategories,
-    sizes: allSizes,
+    sizes: sizes,
   });
 });
 
