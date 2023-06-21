@@ -45,3 +45,16 @@ exports.size_create_post = [
     }
   }),
 ];
+
+exports.size_delete_get = asyncHandler(async (req, res, next) => {
+  const [size, allItems] = await Promise.all([
+    Size.findById(req.params.id).exec(),
+    Item.find({ "sizes.size": req.params.id }).exec(),
+  ]);
+
+  res.render("size_delete", {
+    title: "Delete Size",
+    size: size,
+    items: allItems,
+  });
+});
