@@ -94,3 +94,27 @@ exports.category_update_get = asyncHandler(async (req, res, next) => {
 
   res.render("category_form", { title: "Update Category", category: category });
 });
+
+exports.category_update_post = [
+  body("category", "Category is required").trim().isLength({ min: 3 }).escape(),
+
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+
+    const category = new Category({
+      name: req.body.category,
+      _id: req.params.id,
+    });
+
+    if (!errors.isEmpty()) {
+      res.render("category_form", {
+        title: "Update Category",
+        category: category,
+        errors: errors.array(),
+      });
+    } else {
+      await Category.findByIdAndUpdate(req.params.id, category, {});
+      res.redirect(category.url);
+    }
+  }),
+];
