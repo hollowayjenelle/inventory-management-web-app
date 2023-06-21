@@ -40,8 +40,13 @@ exports.size_create_post = [
         errors: errors.array(),
       });
     } else {
-      await size.save();
-      res.redirect(size.url);
+      const sizeExists = await Size.findOne({ name: req.body.size }).exec();
+      if (sizeExists) {
+        res.redirect(sizeExists.url);
+      } else {
+        await size.save();
+        res.redirect(size.url);
+      }
     }
   }),
 ];
@@ -60,7 +65,7 @@ exports.size_delete_get = asyncHandler(async (req, res, next) => {
 });
 
 exports.size_delete_post = asyncHandler(async (req, res, next) => {
-  const size = await Size.findById(req.params.id);
+  const size = await Size.findById(req.params.id).exec();
   if (size === null) {
     const error = new Error("Size does not exist");
     error.status = 404;
@@ -70,3 +75,43 @@ exports.size_delete_post = asyncHandler(async (req, res, next) => {
     res.redirect("/catalog/sizes");
   }
 });
+
+exports.size_update_get = asyncHandler(async (req, res, next) => {
+  const size = await Size.findById(req.params.id).exec();
+  if (size === null) {
+    const error = new Error("Size does not exist");
+    error.status = 404;
+    next(error);
+  }
+
+  res.render("size_form", { title: "Update Size", size: size });
+});
+
+exports.size_update_post = [
+  body("size", "Size is required").trim().isLength({ min: 1 }).escape(),
+
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+
+    const size = new Size({
+      name: req.body.size,
+      _id: req.params.id,
+    });
+
+    if (!errors.isEmpty()) {
+      res.render("size_form", {
+        title: "Update Form",
+        size: size,
+        errors: errors.array(),
+      });
+    } else {
+      const sizeExists = await Size.findOne({ name: req.body.size }).exec();
+      if (sizeExists) {
+        res.redirect(sizeExists.url);
+      } else {
+        await Size.findByIdAndUpdate(req.params.id, size, {});
+        res.redirect(size.url);
+      }
+    }
+  }),
+];

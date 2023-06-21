@@ -80,6 +80,10 @@ router.get("/size/:id/delete", size_controller.size_delete_get);
 
 router.post("/size/:id/delete", size_controller.size_delete_post);
 
+router.get("/size/:id/update", size_controller.size_update_get);
+
+router.post("/size/:id/update", size_controller.size_update_post);
+
 router.get("/sizes", size_controller.size_list);
 
 router.get("/size/:id", size_controller.size_details);
