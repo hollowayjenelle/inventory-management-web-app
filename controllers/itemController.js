@@ -145,15 +145,14 @@ exports.items_update_get = asyncHandler(async (req, res, next) => {
   for (const size of allSizes) {
     for (const item_size of item.sizes) {
       if (size._id.toString() === item_size.size._id.toString()) {
-        size.checked = true
+        size.checked = true;
         const sizeObj = {
-          size: size._id,
+          _id: size._id,
           name: size.name,
           quantity: item_size.quantity,
-          checked: size.checked
+          checked: size.checked,
         };
         sizes.push(sizeObj);
-        console.log(sizes);
       }
     }
     if (!size.checked) {
@@ -170,4 +169,83 @@ exports.items_update_get = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.items_update_post = [];
+exports.items_update_post = [
+  (req, res, next) => {
+    console.log(req.body);
+    const sizes = [];
+    for (const size of req.body.size) {
+      const index = req.body.size.indexOf(size);
+      const quantity = req.body["size-quantity"][index];
+      if (quantity != "") {
+        const sizeObj = { size: size, quantity: parseInt(quantity) };
+        sizes.push(sizeObj);
+      }
+    }
+    req.body.size = sizes;
+    next();
+  },
+
+  //Validate and santitize data
+  body("name", "Item name is required").trim().isLength({ min: 3 }).escape(),
+  body("description", "Item description is required")
+    .trim()
+    .isLength({ min: 3 })
+    .escape(),
+  body("category", "Category is required").escape(),
+  body("price", "Price is required").trim().isFloat().escape(),
+  body("color", "Item color is required").trim().isLength({ min: 3 }).escape(),
+
+  //Process request
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+
+    const item = new Item({
+      name: req.body.name,
+      description: req.body.description,
+      category: req.body.category,
+      price: req.body.price,
+      image: req.file.path,
+      sizes: req.body.size,
+      color: req.body.color,
+      _id: req.params.id,
+    });
+    if (!errors.isEmpty()) {
+      //If there are errors, the form will render again with the errors
+      const [allCategories, allSizes] = await Promise.all([
+        Category.find().exec(),
+        Size.find().exec(),
+      ]);
+      const sizes = [];
+      for (const size of allSizes) {
+        for (const item_size of item.sizes) {
+          if (size._id.toString() === item_size.size._id.toString()) {
+            size.checked = true;
+            const sizeObj = {
+              size: size._id,
+              name: size.name,
+              quantity: item_size.quantity,
+              checked: size.checked,
+            };
+            sizes.push(sizeObj);
+            console.log(sizes);
+          }
+        }
+        if (!size.checked) {
+          const sizeObj = { size: size._id, name: size.name, quantity: 0 };
+          sizes.push(sizeObj);
+        }
+      }
+
+      res.render("item_form", {
+        title: "Update Item",
+        categories: allCategories,
+        sizes: sizes,
+        item: item,
+        errors: errors.array(),
+      });
+    } else {
+      await Item.findByIdAndUpdate(req.params.id, item, {});
+      res.redirect(item.url);
+    }
+  }),
+];
