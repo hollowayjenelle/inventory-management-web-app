@@ -1,3 +1,4 @@
+require("dotenv").config();
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
@@ -12,8 +13,7 @@ var app = express();
 // Set up mongoose connection
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
-const mongoDB =
-  "mongodb+srv://db_admin:axnpCa9jq7Ufq8x1@myatlasclusteredu.ynn1sho.mongodb.net/clothes_inventory?retryWrites=true&w=majority";
+const mongoDB = process.env.MONGODB_URI;
 
 main().catch((err) => console.log(err));
 async function main() {
@@ -33,8 +33,6 @@ app.use("/uploads", express.static("uploads"));
 
 app.use("/", indexRouter);
 app.use("/catalog", catalogRouter);
-
-app.locals.customSizeOrder = ["XS", "S", "M", "L", "XL"];
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
